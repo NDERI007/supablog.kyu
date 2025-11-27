@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = callSupabase('/rest/v1/posts', 'POST', $postData);
 
     if ($result['code'] == 201) {
-        header("Location: dashboard.php");
+        header("Location: index.php");
         exit;
     } else {
         $error = "Error creating post. Response: " . print_r($result, true);
