@@ -42,13 +42,3 @@ EXPOSE 80
 
 # Start Apache
 CMD ["apache2-foreground"]
-```
-
-## 2. Create `.dockerignore` in `/supablog` root:
-```
-.git
-.gitignore
-.env
-README.md
-*.md
-.DS_Store
