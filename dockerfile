@@ -3,23 +3,21 @@ FROM php:8.2-apache
 # Enable Apache mod_rewrite for clean URLs
 RUN a2enmod rewrite
 
-# Install required PHP extensions
+# Install required PHP extensions and dependencies
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     libzip-dev \
+    libcurl4-openssl-dev \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql mysqli zip
+    && docker-php-ext-install gd pdo pdo_mysql mysqli zip curl
 
-# Install curl extension (critical for Supabase API calls)
-RUN docker-php-ext-install curl
-
-# Download CA certificate bundle for SSL (fixes your earlier SSL error)
+# Download CA certificate bundle for SSL
 RUN curl -o /usr/local/etc/php/cacert.pem https://curl.se/ca/cacert.pem
 
-# Configure PHP
+# Configure PHP for SSL
 RUN echo "curl.cainfo=/usr/local/etc/php/cacert.pem" >> /usr/local/etc/php/php.ini
 
 # Copy application files
