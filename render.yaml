@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: supablog
+    env: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: ENVIRONMENT
+        value: production
