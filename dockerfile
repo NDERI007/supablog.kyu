@@ -27,13 +27,22 @@ COPY . /var/www/html/
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Configure Apache to allow .htaccess
+# Configure Apache
 RUN echo '<Directory /var/www/html/>\n\
     Options Indexes FollowSymLinks\n\
     AllowOverride All\n\
     Require all granted\n\
-</Directory>' > /etc/apache2/conf-available/docker-php.conf \
+</Directory>\n\
+\n\
+<FilesMatch \.php$>\n\
+    SetHandler application/x-httpd-php\n\
+</FilesMatch>\n\
+\n\
+DirectoryIndex index.php index.html' > /etc/apache2/conf-available/docker-php.conf \
     && a2enconf docker-php
+
+# Ensure PHP module is enabled
+RUN a2enmod php
 
 # Expose port 80
 EXPOSE 80
